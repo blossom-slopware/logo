@@ -1,0 +1,19 @@
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip-petal1">
+      <path d="M -800,-800 h 1600 v 1600 h -1600 Z M 13.29,4.84 A 120.00,120.00 0 0,1 -146.18,-53.21 A 120.00,120.00 0 0,1 13.29,4.84 Z" clip-rule="evenodd" />
+    </clipPath>
+    <clipPath id="clip-petal2">
+      <path d="M -800,-800 h 1600 v 1600 h -1600 Z M 4.84,13.29 A 120.00,120.00 0 0,1 -53.21,-146.18 A 120.00,120.00 0 0,1 4.84,13.29 Z" clip-rule="evenodd" />
+    </clipPath>
+    <clipPath id="clip-petal3">
+      <path d="M -800,-800 h 1600 v 1600 h -1600 Z M -4.84,13.29 A 120.00,120.00 0 0,1 53.21,-146.18 A 120.00,120.00 0 0,1 -4.84,13.29 Z" clip-rule="evenodd" />
+    </clipPath>
+  </defs>
+  <g transform="translate(400.0, 400.0)">
+    <path d="M 0.00,0.00 A 100.00,100.00 0 0,1 -132.89,-48.37 A 100.00,100.00 0 0,1 0.00,0.00 Z" fill="#FFB6C1" />
+    <path d="M 0.00,0.00 A 100.00,100.00 0 0,1 -48.37,-132.89 A 100.00,100.00 0 0,1 0.00,0.00 Z" fill="#FFB6C1" clip-path="url(#clip-petal1)" />
+    <path d="M 0.00,0.00 A 100.00,100.00 0 0,1 48.37,-132.89 A 100.00,100.00 0 0,1 0.00,0.00 Z" fill="#FFB6C1" clip-path="url(#clip-petal2)" />
+    <path d="M -0.00,-0.00 A 100.00,100.00 0 0,1 132.89,-48.37 A 100.00,100.00 0 0,1 -0.00,-0.00 Z" fill="#FFB6C1" clip-path="url(#clip-petal3)" />
+  </g>
+</svg>
