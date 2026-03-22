@@ -116,4 +116,4 @@ def svg_to_png(svg_path, png_path, canvas_size=4096, scale=0.4):
 
 
 if __name__ == "__main__":
-    svg_to_png("flower_masked_rounded.svg", "flower_masked_rounded.png", canvas_size=4096, scale=0.4)
+    svg_to_png("flower_masked_rounded.svg", "flower_masked_rounded.png", canvas_size=4096, scale=0.46)
