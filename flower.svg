@@ -1,9 +1,0 @@
-<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
-  <!-- 四瓣花，花瓣位于水平线夹角 20°, 70°, 110°, 160°，尖端对齐花心 -->
-  <g transform="translate(400.0, 400.0)">
-    <path d="M 0.00,-70.71 A 100,100 0 0,1 0.00,70.71 A 100,100 0 0,1 0.00,-70.71 Z" fill="#FFB6C1" transform="translate(-66.45, -24.18) rotate(110.0)" />
-    <path d="M 0.00,-70.71 A 100,100 0 0,1 0.00,70.71 A 100,100 0 0,1 0.00,-70.71 Z" fill="#FFB6C1" transform="translate(-24.18, -66.45) rotate(160.0)" />
-    <path d="M 0.00,-70.71 A 100,100 0 0,1 0.00,70.71 A 100,100 0 0,1 0.00,-70.71 Z" fill="#FFB6C1" transform="translate(24.18, -66.45) rotate(200.0)" />
-    <path d="M 0.00,-70.71 A 100,100 0 0,1 0.00,70.71 A 100,100 0 0,1 0.00,-70.71 Z" fill="#FFB6C1" transform="translate(66.45, -24.18) rotate(250.0)" />
-  </g>
-</svg>
