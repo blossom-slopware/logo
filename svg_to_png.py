@@ -50,8 +50,11 @@ def get_flower_bbox():
     return min(xs), min(ys), max(xs), max(ys)
 
 
-def svg_to_png(svg_path, png_path, size=4096):
-    """将 SVG 转换为透明背景的 PNG，并以花朵包围盒中心为基准裁剪 40% 区域"""
+def svg_to_png(svg_path, png_path, canvas_size=4096, scale=0.4):
+    """
+    将 SVG 转换为透明背景的 PNG
+    画布以花朵包围盒中心为中心，边长为 canvas_size * scale
+    """
     # 计算花朵包围盒中心（在 SVG 坐标系中，原点在 SVG 中心）
     min_x, min_y, max_x, max_y = get_flower_bbox()
     flower_center_x = (min_x + max_x) / 2
@@ -60,20 +63,38 @@ def svg_to_png(svg_path, png_path, size=4096):
     print(f"花朵包围盒: ({min_x:.1f}, {min_y:.1f}) - ({max_x:.1f}, {max_y:.1f})")
     print(f"花朵中心: ({flower_center_x:.1f}, {flower_center_y:.1f})")
 
-    # 先生成较大的临时图像
-    temp_png = "/tmp/temp_flower.png"
+    # 输出画布尺寸
+    output_size = int(canvas_size * scale)
+
+    # 计算 viewBox：以花朵中心为中心，边长为 svg_width / scale
+    # 这样放大后花朵占据画布的 scale 比例
+    viewbox_size = svg_width / scale
+    viewbox_x = (svg_width / 2) + flower_center_x - viewbox_size / 2
+    viewbox_y = (svg_height / 2) + flower_center_y - viewbox_size / 2
+
+    print(f"输出尺寸: {output_size}x{output_size}")
+    print(f"viewBox: {viewbox_x:.1f} {viewbox_y:.1f} {viewbox_size:.1f} {viewbox_size:.1f}")
+
+    # 使用 rsvg-convert 直接生成指定区域的 PNG
     result = subprocess.run(
         [
             "rsvg-convert",
             "-w",
-            str(size),
+            str(output_size),
             "-h",
-            str(size),
-            "--keep-aspect-ratio",
+            str(output_size),
             "--format",
             "png",
+            "--page-x",
+            str(viewbox_x),
+            "--page-y",
+            str(viewbox_y),
+            "--page-width",
+            str(viewbox_size),
+            "--page-height",
+            str(viewbox_size),
             "-o",
-            temp_png,
+            png_path,
             svg_path,
         ],
         capture_output=True,
@@ -83,43 +104,8 @@ def svg_to_png(svg_path, png_path, size=4096):
         print(f"转换失败: {result.stderr}")
         sys.exit(1)
 
-    # 计算裁剪参数
-    crop_size = int(size * 0.4)
-
-    # 将花朵中心从 SVG 坐标系（原点在中心）转换到图像坐标系（原点在左上角）
-    # SVG 中心在图像中的位置
-    img_center_x = size / 2
-    img_center_y = size / 2
-
-    # 花朵中心在图像中的位置（SVG 坐标系 y 轴向下，需要调整）
-    flower_img_x = img_center_x + flower_center_x * (size / svg_width)
-    flower_img_y = img_center_y + flower_center_y * (size / svg_height)
-
-    # 裁剪区域的左上角偏移
-    offset_x = int(flower_img_x - crop_size / 2)
-    offset_y = int(flower_img_y - crop_size / 2)
-
-    print(f"裁剪区域: {crop_size}x{crop_size} at ({offset_x}, {offset_y})")
-
-    # 使用 ImageMagick 裁剪中心区域
-    result = subprocess.run(
-        [
-            "convert",
-            temp_png,
-            "-crop",
-            f"{crop_size}x{crop_size}+{offset_x}+{offset_y}",
-            "+repage",
-            png_path,
-        ],
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode != 0:
-        print(f"裁剪失败: {result.stderr}")
-        sys.exit(1)
-
-    print(f"已生成: {png_path} ({crop_size}x{crop_size})")
+    print(f"已生成: {png_path} ({output_size}x{output_size})")
 
 
 if __name__ == "__main__":
-    svg_to_png("flower_masked.svg", "flower_masked.png", size=4096)
+    svg_to_png("flower_masked_rounded.svg", "flower_masked.png", canvas_size=4096, scale=0.4)
